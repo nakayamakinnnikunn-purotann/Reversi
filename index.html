@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <style>
+      .board {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(8, 1fr);
+        width: 400px;
+        height: 400px;
+        margin: 0 auto;
+      }
+      .cell {
+        background-color: lightgray;
+        border: 1px solid gray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 32px;
+        color: white;
+      }
+      .black {
+        background-color: black;
+      }
+      .white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="board">
+      <!-- cells will be dynamically generated here -->
+    </div>
+    <script>const board = document.querySelector('.board');
+const cells = [];
+
+for (let i = 0; i < 8; i++) {
+  cells[i] = [];
+  for (let j = 0; j < 8; j++) {
+    cells[i][j] = document.createElement('div');
+    cells[i][j].classList.add('cell');
+    cells[i][j].dataset.row = i;
+    cells[i][j].dataset.col = j;
+    board.appendChild(cells[i][j]);
+  }
+}
+
+cells[3][3].classList.add('white');
+cells[3][4].classList.add('black');
+cells[4][3].classList.add('black');
+cells[4][4].classList.add('white');
+
+let turn = 'black';
+board.addEventListener('click', (e) => {
+  const cell = e.target;
+  if (!cell.classList.contains('cell')) {
+    return;
+  }
+  const row = cell.dataset.row;
+  const col = cell.dataset.col;
+  if (cells[row][col].classList.length > 1) {
+    return;
+  }
+  cells[row][col].classList.add(turn);
+  turn = turn === 'black' ? 'white' : 'black';
+});
+</script>
+  </body>
+</html>
